@@ -1,0 +1,5 @@
+{
+    "port": "/dev/cu.usbmodem144101",
+    "board": "arduino:avr:uno",
+    "sketch": "mechtest/SmoothPotServo/SmoothPotServo.ino"
+}
