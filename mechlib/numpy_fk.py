@@ -1,4 +1,5 @@
 import numpy as np
+import tensorflow as tf
 
 __dhparams__ = []
 
@@ -7,6 +8,7 @@ class DHParameters():
         global __dhparams__
         self.r, self.alpha, self.d, self.theta = r, alpha, d, theta
         __dhparams__.append(self)
+        print("FK: Added frame {} to global DH params!".format(len(__dhparams__)-1))
     def getTransform(self):
         return np.reshape((
                     np.cos(self.theta), -np.sin(self.theta)*np.cos(self.alpha), np.sin(self.theta)*np.sin(self.alpha),  self.r*np.cos(self.theta),
@@ -15,6 +17,12 @@ class DHParameters():
                     0,                  0,                                      0,                                      1
                 
                 ), (4,4))
+
+def initParams(table):
+    resetDHParams()
+    for row in table:
+        assert(len(row) is 4)
+        DHParameters(*row)
 
 def getEndTransform():
     n = np.identity(4)
@@ -31,3 +39,5 @@ def getAllTransforms():
 def resetDHParams():
     global __dhparams__
     __dhparams__ = []
+    print("FK: Global DH params reset!")
+    

@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
 from mpl_toolkits.mplot3d import Axes3D #Enables 3D functionality
 from time import sleep
-from mechlib import forwardkinematics as fk
+import numpy_fk as fk
 
 def setAxisRange(ax, axmin, axmax):
     ax.set_xlim3d(axmin,axmax)
@@ -55,7 +55,7 @@ def update(*args): #When a slider has been updated
     updateDHParams()
     vectors = [[0,0,0]]
     for i in fk.getAllTransforms():
-        print(i)
+        #print(i)
         vectors.append(i[:-1,-1])
     drawAll(ax, vectors)
 
