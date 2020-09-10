@@ -5,17 +5,22 @@ from mpl_toolkits.mplot3d import Axes3D #Enables 3D functionality
 from time import sleep
 import itertools
 from robot import Robot
+import reversekinematics_ml as rk
 import forwardkinematics as fk
 
-def drawAll(ax, vectors):
+def drawAll(ax, vectorsets):
     plt.figure(fig2.number)
     plt.cla()
     ax.set_xlim3d(-4,4)
     ax.set_ylim3d(-4,4)
     ax.set_zlim3d(-4,4)
-    (x, y, z) = tuple(zip(*vectors))
-    ax.scatter3D(x, y, z)
-    ax.plot(x, y, z)
+    end = []
+    for vectors in vectorsets:
+        (x, y, z) = tuple(zip(*vectors))
+        ax.scatter3D(x, y, z)
+        ax.plot(x, y, z)
+        end.append((x[-1], y[-1], z[-1]))
+    ax.plot(*tuple(zip(*end)))
 
 #-----DENAVIT-HARTENBERG NONSENSE-----#
 fig1 = plt.figure() #The graphical figure
@@ -32,14 +37,17 @@ for i in range(0, robot.numjoints):
 
 #-----PRIMARY AXIS-----#
 fig2 = plt.figure() #The graphical figure
-fig2.suptitle('Robot Arm Forward Kinematics')
+fig2.suptitle('Robot Arm Reverse Kinematics Prediction')
 ax = Axes3D(fig2) 
 
 #-----RUNTIME-----#
 def update(*args): #When a slider has been updated
     args = [np.radians(s.val) for s in jointSliders]
     vectors = [i[:-1,-1] for i in fk.getAllTransforms(robot.getParams(args))]
-    drawAll(ax, vectors)
+    predicted = rk.predict(vectors[-1])*2*np.pi
+    predictedVectors = [i[:-1,-1] for i in fk.getAllTransforms(robot.getParams(predicted))]
+    
+    drawAll(ax, [vectors, predictedVectors])
 
 for slider in jointSliders:
     slider.on_changed(update)

@@ -1,8 +1,8 @@
 import tensorflow as tf
 import tensorflow.keras.backend as K
 
-zero = K.zeros([], 'float32')
-one = K.ones([], 'float32')
+zero = K.zeros((), 'float32')
+one = K.ones((), 'float32')
 
 #DONE
 def getEndTransform(dhtable):
@@ -22,9 +22,9 @@ def getEndTransform(dhtable):
         cosalpha = K.cos(alpha)
         sinalpha = K.sin(alpha)
         new = K.stack([
-            K.stack([costheta, -costheta*costheta, costheta*costheta, r*costheta]),
-            K.stack([costheta, costheta*costheta, -costheta*costheta, r*costheta]),
-            K.stack([zero, costheta, costheta, d]),
+            K.stack([costheta, -sintheta*cosalpha, sintheta*sinalpha, r*costheta]),
+            K.stack([sintheta, costheta*cosalpha, -costheta*sinalpha, r*sintheta]),
+            K.stack([zero, sinalpha, cosalpha, d]),
             K.stack([zero, zero, zero, one])
         ])
         #Slap it on there

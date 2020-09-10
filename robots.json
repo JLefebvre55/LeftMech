@@ -1,0 +1,35 @@
+{
+    "Mech" : {
+        "name" : "Mech V1",
+        "dhparameters" : [
+            [0, 0, 0, 0.5],
+            ["args[0]", "pi/2", 0, 2],
+            ["args[1]", 0, 1, 0],
+            ["args[2]-pi/2", "-pi/2", 0, 0],
+            [0, 0, 0, 1],
+            ["args[3]", 0, 0, 0.5]
+        ],
+        "joints" : [
+            {
+                "type" : "Revolute - Yaw",
+                "min" : null,
+                "max" : null
+            },
+            {
+                "type" : "Revolute - Pitch",
+                "min" : null,
+                "max" : null
+            },
+            {
+                "type" : "Revolute - Pitch",
+                "min" : null,
+                "max" : null
+            },
+            {
+                "type" : "Revolute - Yaw",
+                "min" : null,
+                "max" : null
+            }
+        ]
+    }
+}
